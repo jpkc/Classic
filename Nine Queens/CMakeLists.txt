@@ -3,4 +3,4 @@ project(NineQueens)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SandBox main.cpp SandBoxTest.cpp Utils.cpp Utils.h)
+add_executable(SandBox "Nine Queens.cpp" "Nine Queens Test.cpp" Utils.cpp Utils.h)

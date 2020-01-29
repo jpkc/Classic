@@ -20,7 +20,7 @@ vector<vector<bool>> createEmptyBoardOfSide(int side)
 void print(const vector<vector<bool>> &board, string title)
 {
     int size = static_cast<int>(board.size());
-    cout << title << endl << "  ";
+    cout << title << endl << " \t";
 
     for(int j = 0; j < size; ++j)
         cout << j << ' ';
@@ -28,7 +28,7 @@ void print(const vector<vector<bool>> &board, string title)
     cout << endl;
 
     for(int j = 0; j < size; ++j) {
-        cout << j << ' ';
+        cout << j << '\t';
 
         for(int i = 0; i < size; ++i)
             board[j][i] ? cout << "Q " : cout << ". ";

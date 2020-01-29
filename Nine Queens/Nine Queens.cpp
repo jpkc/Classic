@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     tests();
 
-    int side = 10;
+    int side = 8;
     vector<vector<bool>> board = createEmptyBoardOfSide(side);
     vector<vector<vector<bool>>> solutions;
 

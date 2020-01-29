@@ -56,6 +56,7 @@ bool positionIsSafe(const std::vector<std::vector<bool>> &board, int column, int
 
     int currentPositionX;
     int currentPositionY;
+    
     for(int offset = 1; offset < board.size(); ++offset) {
         //Cheking Up:
         currentPositionX = column + offset;
@@ -164,16 +165,15 @@ bool RecursiveBacktrack(vector<vector<bool>> &board, int queensInBoard, vector<v
         haveSolution = true;
     }
     else {
-        for(int row = 0; row < board.size(); ++row) {
-            for(int column = 0; column < board.size(); ++column) {
-                if(board[row][column] == false) {
-                    if(positionIsSafe(board, column, row)) {
-                        toggleQueenOn(board, column, row);
-                        if(RecursiveBacktrack(board, queensInBoard + 1, solutions)) {
-                            haveSolution = true;
-                        }
-                        toggleQueenOn(board, column, row);
+        int row = queensInBoard;    //there is only one queen in each row, so each recursive call manages only the respective row
+        for(int column = 0; column < board.size(); ++column) {
+            if(board[row][column] == false) {
+                if(positionIsSafe(board, column, row)) {
+                    toggleQueenOn(board, column, row);
+                    if(RecursiveBacktrack(board, queensInBoard + 1, solutions)) {
+                        haveSolution = true;
                     }
+                    toggleQueenOn(board, column, row);
                 }
             }
         }

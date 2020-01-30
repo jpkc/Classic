@@ -1,6 +1,7 @@
 #ifndef SANDBOX_UTILS_H
 #define SANDBOX_UTILS_H
 
+#include <unordered_set>
 #include <vector>
 #include <string>
 
@@ -14,7 +15,7 @@ public:
     int column;
 };
 
-typedef std::vector<Queen> Board;
+typedef std::unordered_set<Queen> Board;
 
 void print(const Board &board, const std::string &label, int side);
 void print(const Board &board, const std::string &title, int side);

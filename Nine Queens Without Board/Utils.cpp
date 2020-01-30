@@ -65,11 +65,10 @@ bool isSafeFrom(const Queen &queen, int row, int column)
 bool toggleQueenOn(Board &board, int row, int column) {
     auto pos = find(board.begin(), board.end(), Queen {row, column});
     if (pos == board.end()) {
-        board.push_back({row, column});
+        board.insert({row, column});
         return true;
     } else {
-        *pos = board.back();
-        board.pop_back();
+        board.erase({row, column});
         return false;
     }
 }
@@ -77,7 +76,7 @@ bool toggleQueenOn(Board &board, int row, int column) {
 bool valid(const Board &board)
 {
     for(auto queenA = board.begin(); queenA != board.end(); ++queenA)
-        for(auto queenB = queenA + 1; queenB != board.end(); ++queenB)
+        for(auto queenB = queenA; ++queenB != board.end(); )
             if(!isSafeFrom(*queenA, queenB->row, queenB->column))
                 return false;
 

@@ -25,7 +25,7 @@ int main() {
     graph.printEdges();
     graph.printAdjacencyList();
     graph.bfsStartingOn(4);
-    graph.printVisitedAndRespectiveCost();
+    graph.printVisitedInfo();
 
     return 0;
 }

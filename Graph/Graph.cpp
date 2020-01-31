@@ -21,6 +21,21 @@ bool Graph::addEdge(Edge edge)
     return true;
 }
 
+void Graph::printEdges()
+{
+    cout << "Edges: Weights";
+    for(auto edge : edges)
+        cout << endl << edge;
+    cout << endl;
+}
+
+void Graph::buildAdjacencyList()
+{
+    adjacencyList.clear();
+    for(auto edge : edges)
+        adjacencyInsert(edge);
+}
+
 void Graph::adjacencyInsert(Edge edge)
 {
     auto list = adjacencyList.find(edge.to);
@@ -34,21 +49,6 @@ void Graph::adjacencyInsert(Edge edge)
     }
     else
         list->second.insert(edge.to);
-}
-
-void Graph::buildAdjacencyList()
-{
-    adjacencyList.clear();
-    for(auto edge : edges)
-        adjacencyInsert(edge);
-}
-
-void Graph::printEdges()
-{
-    cout << "Edges: Weights";
-    for(auto edge : edges)
-        cout << endl << edge;
-    cout << endl;
 }
 
 void Graph::printAdjacencyList()
@@ -66,19 +66,18 @@ void Graph::printAdjacencyList()
     }
 }
 
-void Graph::printVisitedAndRespectiveCost() {
-    cout << "Visited node: node visit cost" << endl;
+void Graph::printVisitedInfo() {
+    cout << "Visited node: visited from, visit cost" << endl;
     for(auto edge : visited) {
-        cout << edge.first << ": " << edge.second << endl;
+        cout << edge.first << ": " << edge.second.from << ", " << edge.second.totalCost << endl;
     }
 }
-
 
 void Graph::bfsStartingOn(nodeId start)
 {
     queue<nodeId> bfs;
     bfs.push(start);
-    visited.insert({start, 0});
+    visited.insert({start, {start, 0}});
     while(!bfs.empty())
         processAdjacencyQueue(bfs);
 }
@@ -86,7 +85,7 @@ void Graph::bfsStartingOn(nodeId start)
 void Graph::processAdjacencyQueue(std::queue<nodeId> &bfsQueue)
 {
     nodeId currentNode = bfsQueue.front();
-    Weight currentCost = visited.find(currentNode)->second;
+    Weight currentCost = visited.find(currentNode)->second.totalCost;
     bfsQueue.pop();
 
     auto adjacency = adjacencyList.find(currentNode);
@@ -96,13 +95,13 @@ void Graph::processAdjacencyQueue(std::queue<nodeId> &bfsQueue)
         auto nodePosition = visited.find(adjacentNode);
         if(nodePosition == visited.end()) {
             bfsQueue.push(adjacentNode);
-            visited.insert({adjacentNode, currentCost + edgeCost});
+            visited.insert({adjacentNode, {currentNode, currentCost + edgeCost}});
         }
         else {
-            if(currentCost + edgeCost < nodePosition->second) {
+            if((currentCost + edgeCost) < nodePosition->second.totalCost) {
                 bfsQueue.push({adjacentNode});
                 visited.erase(currentNode);
-                visited.insert({adjacentNode, currentCost + edgeCost});
+                visited.insert({adjacentNode, {currentNode, currentCost + edgeCost}});
             }
         }
     }

@@ -33,6 +33,11 @@ struct std::hash<Edge>
     }
 };
 
+typedef struct{
+    nodeId from;
+    Weight totalCost;
+} Visit;
+
 class Graph
 {
     Edges edges;
@@ -42,13 +47,13 @@ public:
     bool addEdge(Edge edge);
     void printEdges();
     void printAdjacencyList();
-    void printVisitedAndRespectiveCost();
+    void printVisitedInfo();
     void bfsStartingOn(nodeId start);
 
 private:
     void adjacencyInsert(Edge edge);
     void buildAdjacencyList();
-    std::unordered_map<nodeId, int> visited;
+    std::unordered_map<nodeId, Visit> visited;
     void processAdjacencyQueue(std::queue<nodeId> &bfsQueue);
 };
 

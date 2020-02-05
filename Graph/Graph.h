@@ -4,11 +4,19 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <queue>
+#include <vector>
 
 typedef int nodeId;
 typedef int Weight;
 typedef std::unordered_set<nodeId> List;
 typedef std::unordered_map<nodeId, List> AdjacencyList;
+
+class Path {
+public:
+    Weight totalCost;
+    std::vector<nodeId> nodesPath;
+    friend std::ostream &operator<<(std::ostream &os, const Path &edge);
+};
 
 class Edge
 {
@@ -48,13 +56,16 @@ public:
     void printEdges();
     void printAdjacencyList();
     void printVisitedInfo();
-    void bfsStartingOn(nodeId start);
+    void bfsStartingOn(nodeId node);
+    Path shortestPath(nodeId nodeStart, nodeId nodeEnd);
+//    Path cycleStartingOn(nodeId node);
 
 private:
+    std::unordered_map<nodeId, Visit> visited;
     void adjacencyInsert(Edge edge);
     void buildAdjacencyList();
-    std::unordered_map<nodeId, Visit> visited;
     void processAdjacencyQueue(std::queue<nodeId> &bfsQueue);
+    Path tracePath(nodeId nodeStart, nodeId nodeEnd);
 };
 
 #endif //GRAPH_H

@@ -107,15 +107,16 @@ void Graph::processAdjacencyQueue(std::queue<nodeId> &bfsQueue)
     for(auto adjacentNode : adjacency->second) {
         auto edge = edges.find({currentNode, adjacentNode, 0});
         Weight edgeCost = edge->weight;
-        auto nodePosition = visited.find(adjacentNode);
-        if(nodePosition == visited.end()) {
+
+        auto adjacentNodeInVisited = visited.find(adjacentNode);
+        if(adjacentNodeInVisited == visited.end()) {
             bfsQueue.push(adjacentNode);
             visited.insert({adjacentNode, {currentNode, currentCost + edgeCost}});
         }
         else {
-            if((currentCost + edgeCost) < nodePosition->second.totalCost) {
+            if((currentCost + edgeCost) < adjacentNodeInVisited->second.totalCost) {
                 bfsQueue.push({adjacentNode});
-                visited.erase(currentNode);
+                visited.erase(adjacentNode);
                 visited.insert({adjacentNode, {currentNode, currentCost + edgeCost}});
             }
         }
@@ -152,6 +153,8 @@ Path Graph::shortestPath(nodeId nodeStart, nodeId nodeEnd)
 Path Graph::tracePath(nodeId nodeStart, nodeId nodeEnd)
 {
     bfsStartingOn(nodeStart);
+
+    printVisitedInfo();
 
     Path path;
     auto currentNode = visited.find(nodeEnd);

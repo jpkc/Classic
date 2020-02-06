@@ -42,8 +42,8 @@ int main() {
     graph.printVisitedInfo();
     cout << "Path from " << startNode<< " to " << endNode << endl;
     Path path = graph.shortestPath(startNode, endNode);
-    cout << path << endl;
     graph.printVisitedInfo();
+    cout << path << endl;
 
 //    cout << "Cycle from " << startNode << ":" <<  endl;
 //    Path cycle = graph.cycleStartingOn(startNode);

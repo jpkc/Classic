@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -87,7 +88,7 @@ void Graph::printVisitedInfo() {
     }
 }
 
-void Graph::bfsStartingOn(nodeId node)
+void Graph::bfsGraphNodesVisitFrom(nodeId node)
 {
     queue<nodeId> bfs;
     bfs.push(node);
@@ -125,36 +126,46 @@ void Graph::processAdjacencyQueue(std::queue<nodeId> &bfsQueue)
 
 Path Graph::shortestPath(nodeId nodeStart, nodeId nodeEnd)
 {
-//    if(nodeStart == nodeEnd)
-//        return cycleStartingOn(nodeStart);
+    if(nodeStart == nodeEnd)
+        return cycleStartingOn(nodeStart);
 
     return tracePath(nodeStart, nodeEnd);
 }
 
-//Path Graph::cycleStartingOn(nodeId nodeStart)
-//{
-//    Path path;
-//    bfsStartingOn(nodeStart);
-//    for(auto visitedNode : visited) {
-//        if(visitedNode.first != nodeStart) {
-//            auto visitedNodeAdjacencyList = adjacencyList.find(visitedNode.first);
-//            auto linkNode = visitedNodeAdjacencyList->second.find(nodeStart);
-//            if(linkNode != visitedNodeAdjacencyList->second.end()) {
-//                path = tracePath(nodeStart, visitedNode.first);
-//                reverse(path.nodesPath.begin(),path.nodesPath.end());
-//                path.nodesPath.push_back(nodeStart);
-//                path.totalCost += edges.find({visitedNode.first, nodeStart, 0})->weight;
-//            }
-//        }
-//    }
-//    return path;
-//}
+Edges::iterator Graph::cheapestVisitedEdgeTo(nodeId destinationEdge) {
+    auto cheapestEdge = edges.end();
+    for(auto currentVisitedNode : visited) {
+        auto currentEdge = edges.find({currentVisitedNode.first, destinationEdge, 0});
+        if(currentEdge != edges.end()) {
+            if(cheapestEdge == edges.end()) {
+                cheapestEdge = currentEdge;
+            }
+            else {
+                if(currentEdge->weight < cheapestEdge->weight) {
+                    cheapestEdge = currentEdge;
+                }
+            }
+        }
+    }
+    return cheapestEdge;
+}
+
+Path Graph::cycleStartingOn(nodeId nodeStart)
+{
+    Path path;
+    bfsGraphNodesVisitFrom(nodeStart);
+    auto pathClosingLink = cheapestVisitedEdgeTo(nodeStart);
+    if(pathClosingLink != edges.end()){
+        path = tracePath(nodeStart, pathClosingLink->from);
+        path.nodesPath.push_back(pathClosingLink->to);
+        path.totalCost += pathClosingLink->weight;
+    }
+    return path;
+}
 
 Path Graph::tracePath(nodeId nodeStart, nodeId nodeEnd)
 {
-    bfsStartingOn(nodeStart);
-
-    printVisitedInfo();
+    bfsGraphNodesVisitFrom(nodeStart);
 
     Path path;
     auto currentNode = visited.find(nodeEnd);
@@ -172,4 +183,3 @@ Path Graph::tracePath(nodeId nodeStart, nodeId nodeEnd)
     reverse(path.nodesPath.begin(),path.nodesPath.end());
     return path;
 }
-

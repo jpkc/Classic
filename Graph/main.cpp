@@ -37,14 +37,32 @@ int main() {
 
     nodeId startNode = 13;
     nodeId endNode = 4;
-
-    graph.bfsStartingOn(5);
-    graph.printVisitedInfo();
-    cout << "Path from " << startNode<< " to " << endNode << endl;
     Path path = graph.shortestPath(startNode, endNode);
-    graph.printVisitedInfo();
-    cout << path << endl;
+//    graph.printVisitedInfo();
+    cout << "Path from " << startNode << " to " << endNode << ": "<< path << endl;
 
+    startNode = 5;
+    endNode = 15;
+    path = graph.shortestPath(startNode, endNode);
+//    graph.printVisitedInfo();
+    cout << "Path from " << startNode << " to " << endNode << ": "<< path << endl;
+
+    startNode = 7;
+    endNode = 6;
+    path = graph.shortestPath(startNode, endNode);
+//    graph.printVisitedInfo();
+    cout << "Path from " << startNode << " to " << endNode << ": "<< path << endl;
+
+    startNode = 3;
+    endNode = 12;
+    path = graph.shortestPath(startNode, endNode);
+//    graph.printVisitedInfo();
+    cout << "Path from " << startNode << " to " << endNode << ": "<< path << endl;
+
+    startNode = endNode = 14;
+    path = graph.shortestPath(startNode, startNode);
+//    graph.printVisitedInfo();
+    cout << "Path from " << startNode << " to " << endNode << ": "<< path << endl;
 //    cout << "Cycle from " << startNode << ":" <<  endl;
 //    Path cycle = graph.cycleStartingOn(startNode);
 //    cout << cycle << endl;

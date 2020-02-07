@@ -26,6 +26,7 @@ public:
     Weight weight;
     Edge(nodeId from, nodeId to, int weight) : from{from}, to{to}, weight{weight} {};
     inline bool operator==(const Edge &edge) const {return (from == edge.from) && (to == edge.to);}
+//    inline bool operator< (const Edge &edge) const {return (weight < edge.weight);}
     friend std::ostream &operator<<(std::ostream &os, const Edge &edge);
 };
 
@@ -56,9 +57,9 @@ public:
     void printEdges();
     void printAdjacencyList();
     void printVisitedInfo();
-    void bfsStartingOn(nodeId node);
+    void bfsGraphNodesVisitFrom(nodeId node);
     Path shortestPath(nodeId nodeStart, nodeId nodeEnd);
-//    Path cycleStartingOn(nodeId node);
+    Path cycleStartingOn(nodeId node);
 
 private:
     std::unordered_map<nodeId, Visit> visited;
@@ -66,6 +67,7 @@ private:
     void buildAdjacencyList();
     void processAdjacencyQueue(std::queue<nodeId> &bfsQueue);
     Path tracePath(nodeId nodeStart, nodeId nodeEnd);
+    Edges::iterator cheapestVisitedEdgeTo(nodeId destinationEdge);
 };
 
 #endif //GRAPH_H

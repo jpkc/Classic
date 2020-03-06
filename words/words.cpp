@@ -12,6 +12,7 @@ int main() {
     rule.number_of_changes = 1;
     rule.differentiate_capitalization = false;
     rule.character_add = false;
+    rule.character_keep = true;
     rule.character_remove = false;
     rule.character_change = true;
     rule.character_swap = false;

@@ -12,6 +12,7 @@ typedef struct {
     int number_of_changes;
     bool differentiate_capitalization;
     bool character_add;
+    bool character_keep;
     bool character_remove;
     bool character_change;
     bool character_swap;
